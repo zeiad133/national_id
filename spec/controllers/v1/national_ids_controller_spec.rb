@@ -49,6 +49,14 @@ RSpec.describe NationalIdsController, type: :controller do
       end
     end
 
+    context 'when birth year is 00' do
+      it 'returns success' do
+        get :show, params: { id: "30002218800136" }
+        expect(response).to be_successful
+        expect(parsed_reponse_body[:birth_date]).to eq('21 of February, 2000')
+      end
+    end
+
 
     context 'when month is 31 days' do
       it 'returns success' do
@@ -69,13 +77,6 @@ RSpec.describe NationalIdsController, type: :controller do
     context 'when id length is less than 14' do
       it 'fail' do
         get :show, params: { id: "3040329880013" }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-    end
-
-    context 'when birth year is 00' do
-      it 'fail' do
-        get :show, params: { id: "30003298800136" }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end

@@ -22,7 +22,7 @@ class NationalId
     return false if sequance_extractor.to_i <= 0
 
     birth_month_validator = '(0[1-9]|1[0-2])'
-    national_id_regex = "(2|3)([0-9][1-9]|[1-9][0-9])#{birth_month_validator}#{day_validator}(01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)[0-9][0-9][0-9][0-9][0-9]"
+    national_id_regex = "(2|3)([0-9][0-9])#{birth_month_validator}#{day_validator}(01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)[0-9][0-9][0-9][0-9][0-9]"
     return false unless id.match?(national_id_regex)
 
     min_age_exceeded?
@@ -49,7 +49,7 @@ class NationalId
     id[0].to_i == 2 ? "19#{year}" : "20#{year}"
   end
 
-  def leap_year_validatior
+  def leap_year_validator
     year_extractor.to_i % 4 == 0? '(0[1-9]|(1|2)[0-9])' : '(0[1-9]|(1|2)[0-8])'
   end
 
@@ -71,7 +71,7 @@ class NationalId
     when 4 , 6 , 9 , 11
       '(0[1-9]|(1|2)[0,9]|30)'
     when 2
-      leap_year_validatior()
+      leap_year_validator()
     else
       '(0[1-9]|(1|2)[0,9]|3[0-1])'
     end
