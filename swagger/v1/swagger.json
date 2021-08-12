@@ -1,0 +1,523 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Kottenora V1",
+    "version": "v1"
+  },
+  "security": [
+    {
+      "client": [
+
+      ],
+      "token": [
+
+      ],
+      "uid": [
+
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "client": {
+      "type": "apiKey",
+      "name": "client",
+      "in": "header"
+    },
+    "token": {
+      "type": "apiKey",
+      "name": "token",
+      "in": "header"
+    },
+    "uid": {
+      "type": "apiKey",
+      "name": "uid",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/v1/users/follows": {
+      "get": {
+        "summary": "Retrieves  Following/Followers it will Retrieves following by default",
+        "tags": [
+          "Follow"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "type": "string",
+            "description": "For search by name or email"
+          },
+          {
+            "name": "followers",
+            "in": "query",
+            "type": "boolean",
+            "description": "For Retrieving the followers"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player Retrieved"
+          }
+        }
+      },
+      "post": {
+        "summary": "Follow  player",
+        "tags": [
+          "Follow"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "follow[target_id]",
+            "in": "formData",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Follow created"
+          },
+          "422": {
+            "description": "Invalid params"
+          },
+          "401": {
+            "description": "user not signed in"
+          }
+        }
+      }
+    },
+    "/v1/users/follows/{id}": {
+      "delete": {
+        "summary": "UnFollow player",
+        "tags": [
+          "Follow"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Follow deleted"
+          }
+        }
+      }
+    },
+    "/v1/users/players": {
+      "get": {
+        "summary": "Retrieves Players",
+        "tags": [
+          "Players"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "type": "string",
+            "description": "For search by name or email"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Players fetched"
+          },
+          "401": {
+            "description": "User not signed in"
+          }
+        }
+      }
+    },
+    "/v1/users/players/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Gets a certain Player",
+        "tags": [
+          "Players"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Player fetched"
+          },
+          "404": {
+            "description": "Player not found"
+          },
+          "401": {
+            "description": "User not signed in"
+          }
+        }
+      }
+    },
+    "/v1/users/self": {
+      "get": {
+        "summary": "Retrieves Self profile",
+        "tags": [
+          "Self"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile fetched"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates Profile",
+        "tags": [
+          "Self"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user[name]",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "user[email]",
+            "in": "formData",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile updated"
+          },
+          "422": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "User not signed in"
+          }
+        }
+      }
+    },
+    "/v1/users": {
+      "post": {
+        "summary": "Creates User",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "password_confirmation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "password",
+                "password_confirmation"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User created"
+          },
+          "422": {
+            "description": "invalid request"
+          }
+        }
+      }
+    },
+    "/v1/users/sign_in": {
+      "post": {
+        "summary": "Authenticate a User",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": " wrong username or password"
+          }
+        }
+      }
+    },
+    "/v1/users/sign_out": {
+      "delete": {
+        "summary": "log out a User",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "404": {
+            "description": "wrong username or password"
+          }
+        }
+      }
+    },
+    "/v1/users/password": {
+      "put": {
+        "summary": "Reset password using old password",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "current_password": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "password_confirmation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "current_password",
+                "password",
+                "password_confirmation"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": " wrong username or password"
+          }
+        }
+      }
+    },
+    "/v1/users/passwords": {
+      "post": {
+        "summary": "forget password request",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "reset password sent"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "reset password by reset password token",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "reset_password_token",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData"
+          },
+          {
+            "name": "password_confirmation",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "reset password sent"
+          },
+          "422": {
+            "description": "invalid request"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/v1/users/confirmations": {
+      "post": {
+        "summary": "Resend confirmation instructions",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "confirmation instructions sent"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "complete user profile",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "confirmation_token",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "user[password]",
+            "in": "formData"
+          },
+          {
+            "name": "user[password_confirmation]",
+            "in": "formData"
+          },
+          {
+            "name": "user[name]",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User created by invitation"
+          },
+          "404": {
+            "description": "not found"
+          },
+          "422": {
+            "description": "invalid attributes"
+          }
+        }
+      }
+    },
+    "/v1/users/confirmations/confirm": {
+      "put": {
+        "summary": "confirm User",
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "confirmation_token",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User got confirmed"
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      }
+    }
+  }
+}
