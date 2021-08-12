@@ -171,9 +171,9 @@ RSpec.describe NationalIdsController, type: :controller do
       end
     end
 
-    context 'when birth date sequance is zero' do
+    context 'when gender digit is zero' do
       it 'fail' do
-        get :show, params: { id: "30403298800006" }
+        get :show, params: { id: "30403298800106" }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
