@@ -30,8 +30,6 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rswag-specs'
-  # gem 'activerecord-nulldb-adapter'
-  # gem 'timecop'
   gem 'factory_bot_rails', '~> 4.0'
   gem 'shoulda-matchers'
 end
@@ -44,8 +42,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rswag-api'
 gem 'rswag-ui'
 gem 'dotenv-rails'
-gem 'devise_token_auth'
 gem 'lograge'
-gem 'rubyzip', '~> 1.1.0'
-gem 'bugsnag', '~> 6.11'
-gem 'interactor'

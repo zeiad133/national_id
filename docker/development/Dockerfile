@@ -9,11 +9,8 @@ ENV RAILS_ROOT /app
 RUN mkdir -p $RAILS_ROOT
 WORKDIR $RAILS_ROOT
 
-# USER $UID:$GID
 
 COPY Gemfile Gemfile.lock ./
-# COPY config/database.yml.copy config/database.yml
-# COPY config/secrets.yml.copy config/secrets.yml
 
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 
