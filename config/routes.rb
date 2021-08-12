@@ -7,9 +7,7 @@ Rails.application.routes.draw do
     mount Rswag::Api::Engine => '/api-docs'
   end
 
-  namespace :v1 do
-    resources :national_ids, only: [] do
-      member {get :show}
-    end
+  resources :national_ids, only: [] do
+    member {get :show}
   end
 end
