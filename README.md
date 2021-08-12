@@ -14,7 +14,7 @@ A national id data extractor Api
 
 * Go to http://localhost:3000/api-docs/
 
-* Test the api throught manual requests
+* Test the api through manual requests
 
 # How to run the test suite
 
