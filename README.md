@@ -4,6 +4,8 @@
 
 * install docker & docker-compose
 
+* Go to project dir
+
 * docker-compose up
 
 * Go to http://localhost:3000/api-docs/
