@@ -10,8 +10,6 @@
 
 * Test the api throught manual requests
 
-* Database 
-
 # How to run the test suite
 
 * docker exec -it container_name rspec
