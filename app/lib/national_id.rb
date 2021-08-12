@@ -6,27 +6,47 @@ class NationalId
     @id = attribute
   end
 
+
+  def info
+    {
+      birth_date: birth_date.strftime("%d of %B, %Y"),
+      governorate: governorate_extractor,
+      birth_date_sequance: sequance_extractor,
+      gender: id[12].to_i % 2 == 0? 'Female' : 'Male'
+    }
+  end
+
+
   def valid?
-    return false if @id.length != 14
+    return false if id.length != 14
+    return false if sequance_extractor.to_i <= 0
 
     birth_month_validator = '(0[1-9]|1[0-2])'
     national_id_regex = "(2|3)([0-9][1-9]|[1-9][0-9])#{birth_month_validator}#{day_validator}(01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)[0-9][0-9][0-9][0-9][0-9]"
-    return false unless @id.match?(national_id_regex)
+    return false unless id.match?(national_id_regex)
 
     min_age_exceeded?
   end
 
+  private
+
+  attr_reader :id
+
+  def sequance_extractor
+    id[9..12]
+  end
+
   def month_extractor
-    @id[3..4]
+    id[3..4]
   end
 
   def day_extractor
-    @id[5..6]
+    id[5..6]
   end
 
   def year_extractor
-    year = @id[1..2]
-    @id[0].to_i == 2 ? "19#{year}" : "20#{year}"
+    year = id[1..2]
+    id[0].to_i == 2 ? "19#{year}" : "20#{year}"
   end
 
   def leap_year_validatior
@@ -42,7 +62,7 @@ class NationalId
   end
 
   def governorate_extractor
-    governorate_number = @id[7..8]
+    governorate_number = id[7..8]
     Constants::GOVERNORATES[:"#{governorate_number}"]
   end
 
