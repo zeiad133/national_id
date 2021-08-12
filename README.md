@@ -6,6 +6,8 @@ A national id data extractor Api
 
 * install docker & docker-compose
 
+* Rename docker/development/.env.cop file to .env
+
 * Go to project dir
 
 * docker-compose up
