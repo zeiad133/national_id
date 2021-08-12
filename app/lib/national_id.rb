@@ -50,11 +50,11 @@ class NationalId
   end
 
   def leap_year_validatior
-    year_extractor.to_i % 4 == 0? '(0[1-9]|(1|2)[0,9])' : '(0[1-9]|(1|2)[0,8])'
+    year_extractor.to_i % 4 == 0? '(0[1-9]|(1|2)[0-9])' : '(0[1-9]|(1|2)[0-8])'
   end
 
   def min_age_exceeded?
-    TimeDifference.new(Time.now, birth_date).min_age_exceeded?
+    TimeDifference.new(Time.zone.now, birth_date).min_age_exceeded?
   end
 
   def birth_date

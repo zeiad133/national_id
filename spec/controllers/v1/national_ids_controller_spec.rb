@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe V1::NationalIdsController, type: :controller do
-  before { allow(Time.zone).to receive(:now) { Date.parse('12/8/2021') }}
+RSpec.describe NationalIdsController, type: :controller do
+  before { allow(Time.zone).to receive(:now) { Time.parse('12/8/2021') }}
   describe 'GET #show' do
     context 'when id is valid' do
       it 'returns success' do
@@ -12,10 +12,40 @@ RSpec.describe V1::NationalIdsController, type: :controller do
       end
     end
 
+    context 'when id holder is female' do
+      it 'returns success' do
+        get :show, params: { id: "30403298800146" }
+        expect(parsed_reponse_body[:gender]).to eq('Female')
+      end
+    end
+
+    context 'when id holder is male' do
+      it 'returns success' do
+        get :show, params: { id: "30403298800136" }
+        expect(parsed_reponse_body[:gender]).to eq('Male')
+      end
+    end
+
+    context 'when id the first in birth day sequance' do
+      it 'returns success' do
+        get :show, params: { id: "30403298800016" }
+        expect(parsed_reponse_body[:birth_date_sequance].to_i).to eq(1)
+      end
+    end
+
     context 'when day is 29 but it is a leap year' do
       it 'returns success' do
         get :show, params: { id: "30402298800136" }
         expect(response).to be_successful
+        expect(parsed_reponse_body[:birth_date]).to eq('29 of February, 2004')
+      end
+    end
+
+    context 'when generation digit is 2' do
+      it 'returns success' do
+        get :show, params: { id: "29402278800136" }
+        expect(response).to be_successful
+        expect(parsed_reponse_body[:birth_date]).to eq('27 of February, 1994')
       end
     end
 
